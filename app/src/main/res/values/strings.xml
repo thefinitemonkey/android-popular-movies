@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Popular Movies</string>
+    <string name="tmdb_key">fcd3b8e485dffcd2bde075bf1121b3b9</string>
+    <string name="tmdb_image_base_url">http://image.tmdb.org/t/p/</string>
+    <string name="DENSITY_120">w92</string>
+    <string name="DENSITY_160">w154</string>
+    <string name="DENSITY_213">w185</string>
+    <string name="DENSITY_240">w342</string>
+    <string name="DENSITY_320">w500</string>
+    <string name="DENSITY_480">w780</string>
+    <string name="DENSITY_640">original</string>
 </resources>
