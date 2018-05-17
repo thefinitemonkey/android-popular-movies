@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.zip.Inflater;
@@ -98,10 +100,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     class MovieViewHolder extends RecyclerView.ViewHolder
             implements RecyclerView.OnClickListener {
+
         private ImageView imagePoster;
+        private Context mHolderContext;
 
         public MovieViewHolder(View view) {
             super(view);
+            mHolderContext = view.getContext();
 
             // Cache the reference to the movie poster image display
             imagePoster = view.findViewById(R.id.iv_movie_poster);
@@ -124,7 +129,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             String posterUrl = R.string.tmdb_image_base_url + mImageSize + imgFile;
 
             // Use Picasso to set the image into the image view on this MovieViewHolder
-            Picasso.with(this).load(posterUrl.toString()).into(imagePoster);
+            Picasso.with(mHolderContext).load(posterUrl).into(imagePoster);
         }
     }
 }
