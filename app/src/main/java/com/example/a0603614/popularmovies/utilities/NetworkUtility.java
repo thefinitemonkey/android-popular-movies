@@ -18,7 +18,6 @@ public class NetworkUtility {
 
 
     public static String getResponseFromHTTPUrl(Uri sortUri) throws IOException {
-        Log.i(TAG, "getResponseFromHTTPUrl: Starting HTTP request");
         // Create a URL from the sortUri
         URL url = new URL(sortUri.toString());
 

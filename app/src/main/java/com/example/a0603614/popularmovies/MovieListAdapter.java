@@ -23,6 +23,7 @@ import java.util.zip.Inflater;
  */
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
+    static private final String TAG = MovieListAdapter.class.getSimpleName();
 
     private final ListItemClickListener mOnClickListener;
     private Context mContext;
@@ -67,10 +68,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 break;
             }
         }
-    }
-
-    public void setMovieData() {
-
     }
 
     @Override
@@ -130,6 +127,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             // Build the URL string from the information
             String posterUrl = mContext.getResources().getString(R.string.tmdb_image_base_url) +
                     mImageSize + posterPath;
+            Log.i(TAG, "bind: posterUrl = " + posterUrl);
 
             // Use Picasso to set the image into the image view on this MovieViewHolder
             Picasso.with(mHolderContext).load(posterUrl).into(imagePoster);
@@ -138,6 +136,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     public void setMovieData(MovieItemData[] movies) {
         mMoviesData = movies;
+        mListItemCount = mMoviesData.length;
         notifyDataSetChanged();
     }
 }
