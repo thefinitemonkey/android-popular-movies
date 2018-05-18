@@ -30,6 +30,14 @@ public class MovieItemData {
         mTitle = movieTitle;
     }
 
+    public int getID() {
+        return mID;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
     public void setVoteCount(int voteCount) {
         mVoteCount = voteCount;
     }

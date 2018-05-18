@@ -125,13 +125,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
 
         public void bind(int position) {
-            // TODO: Get the poster file name from the data
-
-            // Temporary image file name for the moment
-            String imgFile = "/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg";
+            // Get the poster path from the movie data
+            String posterPath = mMoviesData[position].getPosterPath();
             // Build the URL string from the information
             String posterUrl = mContext.getResources().getString(R.string.tmdb_image_base_url) +
-                    mImageSize + imgFile;
+                    mImageSize + posterPath;
 
             // Use Picasso to set the image into the image view on this MovieViewHolder
             Picasso.with(mHolderContext).load(posterUrl).into(imagePoster);

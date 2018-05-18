@@ -59,6 +59,7 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
         mMoviesRecycler.setLayoutManager(gridManager);
         mMoviesRecycler.setHasFixedSize(true);
 
+        loadMovieData();
     }
 
     private void loadMovieData() {
@@ -112,7 +113,7 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
             // Check that we have movies to display
             if (movies == null) return;
 
-
+            mMoviesAdapter.setMovieData(movies);
         }
     }
 
