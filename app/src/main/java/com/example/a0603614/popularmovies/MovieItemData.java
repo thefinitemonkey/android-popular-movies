@@ -118,7 +118,7 @@ public class MovieItemData {
         mOverview = overview;
     }
 
-    public String getmOverview() {
+    public String getOverview() {
         return mOverview;
     }
 
@@ -126,7 +126,7 @@ public class MovieItemData {
         mReleaseDate = releaseDate;
     }
 
-    public Date getmReleaseDate() {
+    public Date getReleaseDate() {
         return mReleaseDate;
     }
 }

@@ -28,6 +28,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     private Context mContext;
     private int mListItemCount = 0;
     private String mImageSize;
+    private MovieItemData[] mMoviesData;
 
     public MovieListAdapter(Context current, ListItemClickListener listener) {
         // Set the mouse click listener
@@ -129,10 +130,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             // Temporary image file name for the moment
             String imgFile = "/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg";
             // Build the URL string from the information
-            String posterUrl = R.string.tmdb_image_base_url + mImageSize + imgFile;
+            String posterUrl = mContext.getResources().getString(R.string.tmdb_image_base_url) +
+                    mImageSize + imgFile;
 
             // Use Picasso to set the image into the image view on this MovieViewHolder
             Picasso.with(mHolderContext).load(posterUrl).into(imagePoster);
         }
+    }
+
+    public void setMovieData(MovieItemData[] movies) {
+        mMoviesData = movies;
+        notifyDataSetChanged();
     }
 }
