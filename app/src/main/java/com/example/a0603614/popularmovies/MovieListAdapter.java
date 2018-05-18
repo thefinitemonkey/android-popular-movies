@@ -26,7 +26,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     private final ListItemClickListener mOnClickListener;
     private Context mContext;
-    private int mListItemCount;
+    private int mListItemCount = 0;
     private String mImageSize;
 
     public MovieListAdapter(Context current, ListItemClickListener listener) {
@@ -66,6 +66,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 break;
             }
         }
+    }
+
+    public void setMovieData() {
 
     }
 
@@ -91,7 +94,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mListItemCount;
     }
 
     public interface ListItemClickListener {
