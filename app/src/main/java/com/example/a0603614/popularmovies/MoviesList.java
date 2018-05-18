@@ -1,11 +1,13 @@
 package com.example.a0603614.popularmovies;
 
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Adapter;
 
 import com.example.a0603614.popularmovies.utilities.NetworkUtility;
@@ -58,6 +60,7 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
                 GridLayoutManager.VERTICAL, false);
         mMoviesRecycler.setLayoutManager(gridManager);
         mMoviesRecycler.setHasFixedSize(true);
+        mMoviesRecycler.addItemDecoration(new RecyclerViewItemDecorator(0));
 
         loadMovieData();
     }
@@ -66,6 +69,28 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
         // TODO: Get the sort type to pass in
 
         new FetchMoviesTask().execute("popular");
+    }
+
+    public class RecyclerViewItemDecorator extends RecyclerView.ItemDecoration {
+        private int spaceInPixels;
+
+        public RecyclerViewItemDecorator(int spaceInPixels) {
+            this.spaceInPixels = spaceInPixels;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+            outRect.left = spaceInPixels;
+            outRect.right = spaceInPixels;
+            outRect.bottom = spaceInPixels;
+
+            if (parent.getChildLayoutPosition(view) == 0) {
+                outRect.top = spaceInPixels;
+            } else {
+                outRect.top = 0;
+            }
+        }
     }
 
     public class FetchMoviesTask extends AsyncTask<String, Void, MovieItemData[]> {

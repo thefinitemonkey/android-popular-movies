@@ -8,5 +8,7 @@
         android:id="@+id/rv_movie_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:padding="0dp"
         />
 </FrameLayout>
