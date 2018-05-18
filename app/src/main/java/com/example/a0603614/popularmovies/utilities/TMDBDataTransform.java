@@ -18,46 +18,48 @@ import java.util.Date;
  * Created by A0603614 on 5/18/18.
  */
 
-public class TMDBDataTransform {
+public final class TMDBDataTransform {
+    private static final String TAG = TMDBDataTransform.class.getSimpleName();
+
+    private static final String JSON_MESSAGE_CODE = "cod";
+    private static final String JSON_RESULTS_ARRAY = "results";
+    private static final String JSON_VOTE_COUNT = "vote_count";
+    private static final String JSON_ID = "id";
+    private static final String JSON_VIDEO = "video";
+    private static final String JSON_VOTE_AVERAGE = "vote_average";
+    private static final String JSON_TITLE = "title";
+    private static final String JSON_POPULARITY = "popularity";
+    private static final String JSON_POSTER_PATH = "poster_path";
+    private static final String JSON_ORIGINAL_LANGUAGE = "original_language";
+    private static final String JSON_ORIGINAL_TITLE = "original_title";
+    private static final String JSON_GENRE_IDS = "genre_ids";
+    private static final String JSON_BACKDROP_PATH = "backdrop_path";
+    private static final String JSON_ADULT = "adult";
+    private static final String JSON_OVERVIEW = "overview";
+    private static final String JSON_RELEASE_DATE = "release_date";
+
+    private static final MovieItemData[] EMPTY_MOVIE_LIST = new MovieItemData[0];
+
+
 
     public static MovieItemData[] getMoviesFromJSON(Context context, String jsonData) {
-        final String TAG = TMDBDataTransform.class.getSimpleName();
-
-        final String JSON_MESSAGE_CODE = "cod";
-        final String JSON_RESULTS_ARRAY = "results";
-        final String JSON_VOTE_COUNT = "vote_count";
-        final String JSON_ID = "id";
-        final String JSON_VIDEO = "video";
-        final String JSON_VOTE_AVERAGE = "vote_average";
-        final String JSON_TITLE = "title";
-        final String JSON_POPULARITY = "popularity";
-        final String JSON_POSTER_PATH = "poster_path";
-        final String JSON_ORIGINAL_LANGUAGE = "original_language";
-        final String JSON_ORIGINAL_TITLE = "original_title";
-        final String JSON_GENRE_IDS = "genre_ids";
-        final String JSON_BACKDROP_PATH = "backdrop_path";
-        final String JSON_ADULT = "adult";
-        final String JSON_OVERVIEW = "overview";
-        final String JSON_RELEASE_DATE = "release_date";
-
         // Initialize values for use in transforming the JSON data
-        MovieItemData[] movies = null;
         JSONObject movieJSON;
         try {
             movieJSON = new JSONObject(jsonData);
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
-            return movies;
+            return EMPTY_MOVIE_LIST;
         }
 
         // Check that there isn't an unexpected error code
         if (movieJSON.has(JSON_MESSAGE_CODE)) {
             try {
                 int errorCode = movieJSON.getInt(JSON_MESSAGE_CODE);
-                if (errorCode != HttpURLConnection.HTTP_OK) return movies;
-            } catch(Exception e) {
+                if (errorCode != HttpURLConnection.HTTP_OK) return EMPTY_MOVIE_LIST;
+            } catch (Exception e) {
                 e.printStackTrace();
-                return movies;
+                return EMPTY_MOVIE_LIST;
             }
         }
 
@@ -67,8 +69,11 @@ public class TMDBDataTransform {
             movieArray = movieJSON.getJSONArray(JSON_RESULTS_ARRAY);
         } catch (Exception e) {
             e.printStackTrace();
-            return movies;
+            return EMPTY_MOVIE_LIST;
         }
+
+        // Create a MovieItemData array of the size of our JSON array
+        MovieItemData[] movies = new MovieItemData[movieArray.length()];
 
         // Iterate over the JSON array to create the movie objects
         int arrayLength = movieArray.length();
@@ -106,7 +111,7 @@ public class TMDBDataTransform {
 
                 // Genres are an array and need to be resolved from the JSON
                 JSONArray jsonIDs = movieJSONObj.getJSONArray(JSON_GENRE_IDS);
-                int[] intIDs = null;
+                int[] intIDs = new int[jsonIDs.length()];
                 for (int pos = 0; pos < jsonIDs.length(); pos++) {
                     intIDs[pos] = jsonIDs.getInt(pos);
                 }
@@ -114,8 +119,8 @@ public class TMDBDataTransform {
 
                 // Store the movie object in the array
                 movies[i] = movieItem;
-            } catch(Exception e) {
-                Log.e(TAG, "getMoviesFromJSON: Error creating MovieItemData", null);
+            } catch (Exception e) {
+                Log.e(TAG, "getMoviesFromJSON: Error creating MovieItemData" + e.getMessage(), null);
             }
         }
 
