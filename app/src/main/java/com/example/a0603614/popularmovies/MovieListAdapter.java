@@ -3,6 +3,7 @@ package com.example.a0603614.popularmovies;
 import android.app.Activity;
 import android.app.LauncherActivity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -43,28 +44,19 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 mImageSize = "w92";
                 break;
             }
-            case DisplayMetrics.DENSITY_MEDIUM: {
+            case DisplayMetrics.DENSITY_MEDIUM:
+            case DisplayMetrics.DENSITY_TV: {
                 mImageSize = "w154";
                 break;
             }
-            case DisplayMetrics.DENSITY_TV: {
-                mImageSize = "w185";
-                break;
-            }
-            case DisplayMetrics.DENSITY_HIGH: {
+            case DisplayMetrics.DENSITY_HIGH:
+            case DisplayMetrics.DENSITY_XHIGH: {
                 mImageSize = "w342";
                 break;
             }
-            case DisplayMetrics.DENSITY_XHIGH: {
-                mImageSize = "w500";
-                break;
-            }
-            case DisplayMetrics.DENSITY_XXHIGH: {
-                mImageSize = "w780";
-                break;
-            }
+            case DisplayMetrics.DENSITY_XXHIGH:
             case DisplayMetrics.DENSITY_XXXHIGH: {
-                mImageSize = "original";
+                mImageSize = "w500";
                 break;
             }
         }
@@ -102,7 +94,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     class MovieViewHolder extends RecyclerView.ViewHolder
             implements RecyclerView.OnClickListener {
 
-        private ImageView imagePoster;
+        private ImageView mImagePoster;
         private Context mHolderContext;
 
         public MovieViewHolder(View view) {
@@ -110,7 +102,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             mHolderContext = view.getContext();
 
             // Cache the reference to the movie poster image display
-            imagePoster = view.findViewById(R.id.iv_movie_poster);
+            mImagePoster = view.findViewById(R.id.iv_movie_poster);
             // Set the view to listen for clicks
             view.setOnClickListener(this);
         }
@@ -127,10 +119,12 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             // Build the URL string from the information
             String posterUrl = mContext.getResources().getString(R.string.tmdb_image_base_url) +
                     mImageSize + posterPath;
-            Log.i(TAG, "bind: posterUrl = " + posterUrl);
 
             // Use Picasso to set the image into the image view on this MovieViewHolder
-            Picasso.with(mHolderContext).load(posterUrl).into(imagePoster);
+            Picasso.with(mHolderContext).load(posterUrl).into(mImagePoster);
+            // Get screen pixels
+            int screenPixels = mHolderContext.getResources().getDisplayMetrics().widthPixels;
+            mImagePoster.setMinimumWidth(screenPixels / 2);
         }
     }
 

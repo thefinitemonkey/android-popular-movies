@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 
@@ -23,6 +26,11 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
 
     private Uri mTopRatedUri;
     private Uri mPopularUri;
+
+    private static final String POPULAR = "popular";
+    private static final String RATED = "rated";
+
+    private String mSelectedSort = POPULAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +76,7 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
     private void loadMovieData() {
         // TODO: Get the sort type to pass in
 
-        new FetchMoviesTask().execute("popular");
+        new FetchMoviesTask().execute(mSelectedSort);
     }
 
     public class RecyclerViewItemDecorator extends RecyclerView.ItemDecoration {
@@ -108,9 +116,9 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
             // Get the URI to use for the selected sort
             Uri sortUri;
             String sort = params[0];
-            if (sort == "popular") {
+            if (sort == POPULAR) {
                 sortUri = mPopularUri;
-            } else if (sort == "toprated") {
+            } else if (sort == RATED) {
                 sortUri = mTopRatedUri;
             } else {
                 return null;
@@ -145,5 +153,39 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
     @Override
     public void onListItemClick(int itemIndex) {
         // TODO: Navigate to details screen on click
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Set up the menu items
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sort_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        String screenTitle = "";
+
+        switch (id) {
+            case R.id.menu_popular: {
+                mSelectedSort = POPULAR;
+                screenTitle = "Popular Movies";
+                break;
+            }
+            case R.id.menu_highest_rated: {
+                mSelectedSort = RATED;
+                screenTitle = "Highest Rated Movies";
+                break;
+            }
+        }
+
+        // Change the screen title to reflect the sort selection and load the data
+        getSupportActionBar().setTitle(screenTitle);
+        loadMovieData();
+
+        return super.onOptionsItemSelected(item);
     }
 }
