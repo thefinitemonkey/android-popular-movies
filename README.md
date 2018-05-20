@@ -11,4 +11,6 @@ This project is the completed version of the **Popular Movies** app for Android 
 
 ## To Review
 
-Clone this source code, then open in Android Studio and run in an Emulator with APK 26.
+* Clone this source code
+* Add your own API key to the strings.xml resource values file
+* Open in Android Studio and run in an Emulator with APK 26.

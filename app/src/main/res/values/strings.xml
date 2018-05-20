@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="tmdb_key_name">api_key</string>
-    <string name="tmdb_key_value">fcd3b8e485dffcd2bde075bf1121b3b9</string>
+    <string name="tmdb_key_value"></string>
     <string name="tmdb_poster_base_url">http://image.tmdb.org/t/p/</string>
     <string name="tmdb_popularity_sort_scheme">https</string>
     <string name="tmdb_popularity_sort_host">api.themoviedb.org</string>
