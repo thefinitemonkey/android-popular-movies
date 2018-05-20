@@ -62,6 +62,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
     }
 
+    public MovieItemData getMovieData(int index) {
+        if (index >= 0 && mMoviesData.length > 0) {
+            return mMoviesData[index];
+        }
+        return null;
+    }
+
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflate the view
@@ -70,11 +77,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(listItemID, parent, false);
 
-        // Create the MovieViewHolder with the inflated view
-        MovieViewHolder movieView = new MovieViewHolder(view);
-
         // Return the MovieViewHolder
-        return movieView;
+        return new MovieViewHolder(view);
     }
 
     @Override
@@ -117,7 +121,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             // Get the poster path from the movie data
             String posterPath = mMoviesData[position].getPosterPath();
             // Build the URL string from the information
-            String posterUrl = mContext.getResources().getString(R.string.tmdb_image_base_url) +
+            String posterUrl = mHolderContext.getResources().getString(R.string.tmdb_poster_base_url) +
                     mImageSize + posterPath;
 
             // Use Picasso to set the image into the image view on this MovieViewHolder

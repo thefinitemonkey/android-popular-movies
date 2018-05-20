@@ -1,8 +1,11 @@
 package com.example.a0603614.popularmovies;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -59,7 +62,7 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
         // Create the adapter instance
         mMoviesAdapter = new MovieListAdapter(this, this);
         // Create the recycler instance and set the adapter
-        mMoviesRecycler = (RecyclerView) findViewById(R.id.rv_movie_list);
+        mMoviesRecycler = findViewById(R.id.rv_movie_list);
         mMoviesRecycler.setAdapter(mMoviesAdapter);
 
         // Create a grid layout manager for use in the display of the recycler
@@ -74,8 +77,6 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
     }
 
     private void loadMovieData() {
-        // TODO: Get the sort type to pass in
-
         new FetchMoviesTask().execute(mSelectedSort);
     }
 
@@ -116,9 +117,9 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
             // Get the URI to use for the selected sort
             Uri sortUri;
             String sort = params[0];
-            if (sort == POPULAR) {
+            if (sort.equals(POPULAR)) {
                 sortUri = mPopularUri;
-            } else if (sort == RATED) {
+            } else if (sort.equals(RATED)) {
                 sortUri = mTopRatedUri;
             } else {
                 return null;
@@ -128,10 +129,8 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
                 // Get the JSON data
                 String jsonMoviesResponse = NetworkUtility.getResponseFromHTTPUrl(sortUri);
 
-                MovieItemData[] movieItemData = TMDBDataTransform.getMoviesFromJSON(
+                return TMDBDataTransform.getMoviesFromJSON(
                         MoviesList.this, jsonMoviesResponse);
-
-                return movieItemData;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -152,7 +151,11 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
 
     @Override
     public void onListItemClick(int itemIndex) {
-        // TODO: Navigate to details screen on click
+        Context context = this;
+        Class detinationClass = MovieDetails.class;
+        Intent showMovieDetails = new Intent(context, detinationClass);
+        showMovieDetails.putExtra("movieData", mMoviesAdapter.getMovieData(itemIndex));
+        startActivity(showMovieDetails);
     }
 
     @Override
@@ -183,7 +186,11 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
         }
 
         // Change the screen title to reflect the sort selection and load the data
-        getSupportActionBar().setTitle(screenTitle);
+        try {
+            getSupportActionBar().setTitle(screenTitle);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         loadMovieData();
 
         return super.onOptionsItemSelected(item);

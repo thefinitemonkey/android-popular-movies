@@ -1,5 +1,10 @@
 package com.example.a0603614.popularmovies;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -9,7 +14,7 @@ import java.util.Date;
 
 // Class for creating movie data object
 
-public class MovieItemData {
+public class MovieItemData implements Parcelable {
     private int mVoteCount;
     private int mID;
     private Boolean mVideo;
@@ -137,4 +142,79 @@ public class MovieItemData {
     public Date getReleaseDate() {
         return mReleaseDate;
     }
+
+
+    public MovieItemData(Parcel in) {
+        mID = in.readInt();
+        mTitle = in.readString();
+        mVoteCount = in.readInt();
+        int video = in.readInt();
+        if (video == 0) {
+            mVideo = false;
+        } else {
+            mVideo = true;
+        }
+        mVoteAverage = in.readFloat();
+        mPopularity = in.readFloat();
+        mPosterPath = in.readString();
+        mOriginalLanguage = in.readString();
+        mOriginalTitle = in.readString();
+        mGenreIDs = in.createIntArray();
+        mBackdropPath = in.readString();
+        int adult = in.readInt();
+        if (adult == 0) {
+            mAdult = false;
+        } else {
+            mAdult = true;
+        }
+        mOverview = in.readString();
+        String date = in.readString();
+        try {
+            mReleaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (Exception e) {
+            mReleaseDate = null;
+        }
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mID);
+        parcel.writeString(mTitle);
+        parcel.writeInt(mVoteCount);
+        if(mVideo) {
+            parcel.writeInt(1);
+        } else {
+            parcel.writeInt(0);
+        }
+        parcel.writeFloat(mVoteAverage);
+        parcel.writeFloat(mPopularity);
+        parcel.writeString(mPosterPath);
+        parcel.writeString(mOriginalLanguage);
+        parcel.writeString(mOriginalTitle);
+        parcel.writeIntArray(mGenreIDs);
+        parcel.writeString(mBackdropPath);
+        if (mAdult) {
+            parcel.writeInt(1);
+        } else {
+            parcel.writeInt(0);
+        }
+        parcel.writeString(mOverview);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        parcel.writeString(dateFormat.format(mReleaseDate));
+    }
+
+    public static final Parcelable.Creator<MovieItemData> CREATOR =
+            new Parcelable.Creator<MovieItemData> () {
+        public MovieItemData createFromParcel(Parcel in) {
+            return new MovieItemData(in);
+        }
+
+        public MovieItemData[] newArray(int size) {
+            return new MovieItemData[size];
+        }
+    };
 }
