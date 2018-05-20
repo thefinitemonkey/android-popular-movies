@@ -1,4 +1,4 @@
-# Popular Moviews Project
+# Popular Movies Project
 
 ## Project Overview
 This project is the completed version of the **Popular Movies** app for Android Developer Nano-Degree through Udacity. It does the following:
