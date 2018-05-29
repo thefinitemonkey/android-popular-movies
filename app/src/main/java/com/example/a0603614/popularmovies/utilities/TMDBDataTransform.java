@@ -42,7 +42,6 @@ public final class TMDBDataTransform {
     private static final MovieItemData[] EMPTY_MOVIE_LIST = new MovieItemData[0];
 
 
-
     public static MovieItemData[] getMoviesFromJSON(Context context, String jsonData) {
         // Initialize values for use in transforming the JSON data
         JSONObject movieJSON;
@@ -91,24 +90,22 @@ public final class TMDBDataTransform {
                 // ID and Title are required to create object
                 int id = movieJSONObj.getInt(JSON_ID);
                 String title = movieJSONObj.getString(JSON_TITLE);
-                MovieItemData movieItem = new MovieItemData(id, title);
 
                 // Put the simple properties
-                movieItem.setAdult(movieJSONObj.getBoolean(JSON_ADULT));
-                movieItem.setBackdropPath(movieJSONObj.getString(JSON_BACKDROP_PATH));
-                movieItem.setOriginalLanguage(movieJSONObj.getString(JSON_ORIGINAL_LANGUAGE));
-                movieItem.setOriginalTitle(movieJSONObj.getString(JSON_ORIGINAL_TITLE));
-                movieItem.setOverview(movieJSONObj.getString(JSON_OVERVIEW));
-                movieItem.setPopularity(movieJSONObj.getLong(JSON_POPULARITY));
-                movieItem.setPosterPath(movieJSONObj.getString(JSON_POSTER_PATH));
-                movieItem.setVideoAvailable(movieJSONObj.getBoolean(JSON_VIDEO));
-                movieItem.setVoteAverage(movieJSONObj.getLong(JSON_VOTE_AVERAGE));
-                movieItem.setVoteCount(movieJSONObj.getInt(JSON_VOTE_COUNT));
+                Boolean adult = (movieJSONObj.getBoolean(JSON_ADULT));
+                String backdropPath = (movieJSONObj.getString(JSON_BACKDROP_PATH));
+                String originalLanguage = (movieJSONObj.getString(JSON_ORIGINAL_LANGUAGE));
+                String originalTitle = (movieJSONObj.getString(JSON_ORIGINAL_TITLE));
+                String overview = (movieJSONObj.getString(JSON_OVERVIEW));
+                Long popularity = (movieJSONObj.getLong(JSON_POPULARITY));
+                String posterPath = (movieJSONObj.getString(JSON_POSTER_PATH));
+                Boolean video = (movieJSONObj.getBoolean(JSON_VIDEO));
+                Long voteAverage = (movieJSONObj.getLong(JSON_VOTE_AVERAGE));
+                int voteCount = (movieJSONObj.getInt(JSON_VOTE_COUNT));
 
                 // Date is returned as a string in JSON and will be stored as a Date
                 String jsonDate = movieJSONObj.getString(JSON_RELEASE_DATE);
                 Date releaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(jsonDate);
-                movieItem.setReleaseDate(releaseDate);
 
                 // Genres are an array and need to be resolved from the JSON
                 JSONArray jsonIDs = movieJSONObj.getJSONArray(JSON_GENRE_IDS);
@@ -116,12 +113,20 @@ public final class TMDBDataTransform {
                 for (int pos = 0; pos < jsonIDs.length(); pos++) {
                     intIDs[pos] = jsonIDs.getInt(pos);
                 }
-                movieItem.setGenreIDs(intIDs);
 
                 // Store the movie object in the array
+                MovieItemData movieItem =
+                        new MovieItemData(id, title, voteCount, voteAverage, popularity,
+                                          posterPath, originalLanguage, originalTitle,
+                                          intIDs, backdropPath, adult, overview, releaseDate,
+                                          video);
+
                 movies[i] = movieItem;
             } catch (Exception e) {
-                Log.e(TAG, "getMoviesFromJSON: Error creating MovieItemData" + e.getMessage(), null);
+                Log.e(
+                        TAG, "getMoviesFromJSON: Error creating MovieItemData" + e.getMessage(),
+                        null
+                );
             }
         }
 

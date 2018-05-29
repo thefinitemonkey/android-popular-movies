@@ -111,7 +111,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         public void bind(int position) {
             // Get the poster path from the movie data
-            String posterPath = mMoviesData[position].getPosterPath();
+            String posterPath = mMoviesData[position].posterPath;
             // Build the URL string from the information
             String posterUrl = mHolderContext.getResources().getString(R.string.tmdb_poster_base_url) +
                     mImageSize + posterPath;

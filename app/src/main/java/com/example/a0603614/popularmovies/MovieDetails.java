@@ -55,7 +55,7 @@ public class MovieDetails extends AppCompatActivity {
 
         // Backdrop image
         String backdropUrl = getResources().getString(R.string.tmdb_poster_base_url) +
-                mImageSize + movieData.getBackdropPath();
+                mImageSize + movieData.backdropPath;
         ImageView backdropImage = findViewById(R.id.iv_details_backdrop);
         // Use Picasso to set the image into the image view on this display
         Picasso.with(this).load(backdropUrl).into(backdropImage);
@@ -64,7 +64,7 @@ public class MovieDetails extends AppCompatActivity {
 
         // Poster image
         String posterUrl = getResources().getString(R.string.tmdb_poster_base_url) +
-                mImageSize + movieData.getPosterPath();
+                mImageSize + movieData.posterPath;
         ImageView posterImage = findViewById(R.id.iv_details_poster);
         // Use Picasso to set the image into the image view on this display
         Picasso.with(this).load(posterUrl).into(posterImage);
@@ -73,22 +73,22 @@ public class MovieDetails extends AppCompatActivity {
 
         // Release date
         TextView tvReleaseDate = findViewById(R.id.tv_release_date);
-        Date releaseDate = movieData.getReleaseDate();
+        Date releaseDate = movieData.releaseDate;
         DateFormat formatter = new SimpleDateFormat("MMMM dd, yyyy");
         String strReleaseDate = formatter.format(releaseDate);
         tvReleaseDate.setText(strReleaseDate);
 
         // Average vote
         TextView tvAvgVote = findViewById(R.id.tv_vote_average);
-        String avgVote = movieData.getVoteAverage() + "";
+        String avgVote = movieData.voteAverage + "";
         tvAvgVote.setText(avgVote);
 
         // Movie title
         TextView tvTitle = findViewById(R.id.tv_movie_title);
-        tvTitle.setText(movieData.getTitle());
+        tvTitle.setText(movieData.title);
 
         // Synopsis
         TextView tvSynopsis = findViewById(R.id.tv_synopsis);
-        tvSynopsis.setText(movieData.getOverview());
+        tvSynopsis.setText(movieData.overview);
     }
 }

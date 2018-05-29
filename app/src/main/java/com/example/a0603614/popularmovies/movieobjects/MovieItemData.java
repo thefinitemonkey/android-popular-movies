@@ -15,164 +15,81 @@ import java.util.Date;
 // Class for creating movie data object
 
 public class MovieItemData implements Parcelable {
-    private int mVoteCount;
-    private int mID;
-    private Boolean mVideo;
-    private float mVoteAverage;
-    private String mTitle;
-    private float mPopularity;
-    private String mPosterPath;
-    private String mOriginalLanguage;
-    private String mOriginalTitle;
-    private int[] mGenreIDs;
-    private String mBackdropPath;
-    private Boolean mAdult;
-    private String mOverview;
-    private Date mReleaseDate;
+    public static final Parcelable.Creator<MovieItemData> CREATOR =
+            new Parcelable.Creator<MovieItemData>() {
+                public MovieItemData createFromParcel(Parcel in) {
+                    return new MovieItemData(in);
+                }
 
-    public MovieItemData(int movieID, String movieTitle) {
-        mID = movieID;
-        mTitle = movieTitle;
+                public MovieItemData[] newArray(int size) {
+                    return new MovieItemData[size];
+                }
+            };
+    public final int voteCount;
+    public final int id;
+    public final Boolean video;
+    public final float voteAverage;
+    public final String title;
+    public final float popularity;
+    public final String posterPath;
+    public final String originalLanguage;
+    public final String originalTitle;
+    public final int[] genreIDs;
+    public final String backdropPath;
+    public final Boolean adult;
+    public final String overview;
+    public Date releaseDate;
+
+    public MovieItemData(int movieID, String movieTitle, int votes, float average,
+                         float popularityScore, String poster, String origLanguage,
+                         String origTitle, int[] genres, String backdrop,
+                         Boolean adultFilm, String overviewText, Date release,
+                         Boolean hasVideo) {
+        id = movieID;
+        title = movieTitle;
+        voteCount = votes;
+        voteAverage = average;
+        popularity = popularityScore;
+        posterPath = poster;
+        originalLanguage = origLanguage;
+        originalTitle = origTitle;
+        genreIDs = genres;
+        backdropPath = backdrop;
+        adult = adultFilm;
+        overview = overviewText;
+        releaseDate = release;
+        video = hasVideo;
     }
-
-    public int getID() {
-        return mID;
-    }
-
-    public String getTitle() {
-        return mTitle;
-    }
-
-    public void setVoteCount(int voteCount) {
-        mVoteCount = voteCount;
-    }
-
-    public int getVoteCount() {
-        return mVoteCount;
-    }
-
-    public void setVideoAvailable(Boolean hasVideo) {
-        mVideo = hasVideo;
-    }
-
-    public Boolean getVideoAvailable() {
-        return mVideo;
-    }
-
-    public void setVoteAverage(float voteAverage) {
-        mVoteAverage = voteAverage;
-    }
-
-    public float getVoteAverage() {
-        return mVoteAverage;
-    }
-
-    public void setPopularity(float popularity) {
-        mPopularity = popularity;
-    }
-
-    public float getPopularity() {
-        return mPopularity;
-    }
-
-    public void setPosterPath(String posterPath) {
-        mPosterPath = posterPath;
-    }
-
-    public String getPosterPath() {
-        return mPosterPath;
-    }
-
-    public void setOriginalLanguage(String originalLanguage) {
-        mOriginalLanguage = originalLanguage;
-    }
-
-    public String getOriginalLanguage() {
-        return mOriginalLanguage;
-    }
-
-    public void setOriginalTitle(String originalTitle) {
-        mOriginalTitle = originalTitle;
-    }
-
-    public String getOriginalTitle() {
-        return mOriginalTitle;
-    }
-
-    public void addGenreID(int pos, int genreID) {
-        mGenreIDs[pos] = genreID;
-    }
-
-    public void setGenreIDs(int[] genreIDs) {
-        mGenreIDs = genreIDs;
-    }
-
-    public int[] getGenreIDs() {
-        return mGenreIDs;
-    }
-
-    public void setBackdropPath(String backdropPath) {
-        mBackdropPath = backdropPath;
-    }
-
-    public String getBackdropPath() {
-        return mBackdropPath;
-    }
-
-    public void setAdult(Boolean adult) {
-        mAdult = adult;
-    }
-
-    public Boolean getAdult() {
-        return mAdult;
-    }
-
-    public void setOverview(String overview) {
-        mOverview = overview;
-    }
-
-    public String getOverview() {
-        return mOverview;
-    }
-
-    public void setReleaseDate(Date releaseDate) {
-        mReleaseDate = releaseDate;
-    }
-
-    public Date getReleaseDate() {
-        return mReleaseDate;
-    }
-
 
     public MovieItemData(Parcel in) {
-        mID = in.readInt();
-        mTitle = in.readString();
-        mVoteCount = in.readInt();
-        int video = in.readInt();
-        if (video == 0) {
-            mVideo = false;
+        id = in.readInt();
+        title = in.readString();
+        voteCount = in.readInt();
+        int v = in.readInt();
+        if (v == 0) {
+            video = false;
         } else {
-            mVideo = true;
+            video = true;
         }
-        mVoteAverage = in.readFloat();
-        mPopularity = in.readFloat();
-        mPosterPath = in.readString();
-        mOriginalLanguage = in.readString();
-        mOriginalTitle = in.readString();
-        mGenreIDs = in.createIntArray();
-        mBackdropPath = in.readString();
-        int adult = in.readInt();
-        if (adult == 0) {
-            mAdult = false;
+        voteAverage = in.readFloat();
+        popularity = in.readFloat();
+        posterPath = in.readString();
+        originalLanguage = in.readString();
+        originalTitle = in.readString();
+        genreIDs = in.createIntArray();
+        backdropPath = in.readString();
+        int a = in.readInt();
+        if (a == 0) {
+            adult = false;
         } else {
-            mAdult = true;
+            adult = true;
         }
-        mOverview = in.readString();
+        overview = in.readString();
         String date = in.readString();
         try {
-            mReleaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            releaseDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
         } catch (Exception e) {
-            mReleaseDate = null;
+            releaseDate = null;
         }
     }
 
@@ -182,39 +99,28 @@ public class MovieItemData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(mID);
-        parcel.writeString(mTitle);
-        parcel.writeInt(mVoteCount);
-        if(mVideo) {
+        parcel.writeInt(id);
+        parcel.writeString(title);
+        parcel.writeInt(voteCount);
+        if (video) {
             parcel.writeInt(1);
         } else {
             parcel.writeInt(0);
         }
-        parcel.writeFloat(mVoteAverage);
-        parcel.writeFloat(mPopularity);
-        parcel.writeString(mPosterPath);
-        parcel.writeString(mOriginalLanguage);
-        parcel.writeString(mOriginalTitle);
-        parcel.writeIntArray(mGenreIDs);
-        parcel.writeString(mBackdropPath);
-        if (mAdult) {
+        parcel.writeFloat(voteAverage);
+        parcel.writeFloat(popularity);
+        parcel.writeString(posterPath);
+        parcel.writeString(originalLanguage);
+        parcel.writeString(originalTitle);
+        parcel.writeIntArray(genreIDs);
+        parcel.writeString(backdropPath);
+        if (adult) {
             parcel.writeInt(1);
         } else {
             parcel.writeInt(0);
         }
-        parcel.writeString(mOverview);
+        parcel.writeString(overview);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        parcel.writeString(dateFormat.format(mReleaseDate));
+        parcel.writeString(dateFormat.format(releaseDate));
     }
-
-    public static final Parcelable.Creator<MovieItemData> CREATOR =
-            new Parcelable.Creator<MovieItemData> () {
-        public MovieItemData createFromParcel(Parcel in) {
-            return new MovieItemData(in);
-        }
-
-        public MovieItemData[] newArray(int size) {
-            return new MovieItemData[size];
-        }
-    };
 }
