@@ -1,23 +1,15 @@
 package com.example.a0603614.popularmovies;
 
-import android.app.Activity;
-import android.app.LauncherActivity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ImageView;
 
+import com.example.a0603614.popularmovies.movieobjects.MovieItemData;
 import com.squareup.picasso.Picasso;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.zip.Inflater;
 
 /**
  * Created by A0603614 on 5/17/18.

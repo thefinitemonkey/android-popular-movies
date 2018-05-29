@@ -1,11 +1,12 @@
 package com.example.a0603614.popularmovies;
 
+import android.database.Cursor;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,27 +15,78 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 
+import com.example.a0603614.popularmovies.loaders.MovieListLoader;
+import com.example.a0603614.popularmovies.movieobjects.MovieItemData;
 import com.example.a0603614.popularmovies.utilities.Api;
-import com.example.a0603614.popularmovies.utilities.NetworkUtility;
-import com.example.a0603614.popularmovies.utilities.TMDBDataTransform;
 
-import java.io.IOException;
-
-public class MoviesList extends AppCompatActivity implements MovieListAdapter.ListItemClickListener {
-
-    // Need to hold onto the adapter and recycler
-    private MovieListAdapter mMoviesAdapter;
-    private RecyclerView mMoviesRecycler;
-
-    private Uri mTopRatedUri;
-    private Uri mPopularUri;
+public class MoviesList extends AppCompatActivity implements
+        MovieListAdapter.ListItemClickListener {
 
     private static final String POPULAR = "popular";
     private static final String RATED = "rated";
-
+    // Need to hold onto the adapter and recycler
+    private MovieListAdapter mMoviesAdapter;
+    private RecyclerView mMoviesRecycler;
+    private Uri mTopRatedUri;
+    private Uri mPopularUri;
     private String mSelectedSort = POPULAR;
+    private int mMovieListLoaderId = 1993;
+
+
+    /****** Begin loader methods for retrieving movie lists from TMDB API ******/
+    private LoaderManager.LoaderCallbacks<MovieItemData[]> mMovieItemLoaderCallback =
+            new LoaderManager.LoaderCallbacks<MovieItemData[]>() {
+                @Override
+                public Loader<MovieItemData[]> onCreateLoader(int i, Bundle bundle) {
+                    mMovieListLoaderId = i;
+                    return new MovieListLoader(MoviesList.this, bundle.getString("queryUrl"));
+                }
+
+                @Override
+                public void onLoadFinished(Loader<MovieItemData[]> loader, MovieItemData[] movieItemData) {
+                    // Check that we have movies to display
+                    if (movieItemData == null) return;
+
+                    mMoviesAdapter.setMovieData(movieItemData);
+
+                    //TODO: End loading indicator
+                }
+
+                @Override
+                public void onLoaderReset(Loader<MovieItemData[]> loader) {
+
+                }
+            };
+    /****** End loader methods for retrieving movie lists from TMDB API ******/
+
+
+    /****** Begin loader methods for retrieving movie lists from SQLite ******/
+    private LoaderManager.LoaderCallbacks<Cursor> mMovieCursorLoaderCallback =
+            new LoaderManager.LoaderCallbacks<Cursor>() {
+                @Override
+                public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+                    mMovieListLoaderId = i;
+                    return null;
+                }
+
+                @Override
+                public void onLoadFinished(Loader<Cursor> loader, Cursor movieItemData) {
+                    // Check that we have movies to display
+                    if (movieItemData == null) return;
+
+                    //mMoviesAdapter.setMovieData(movieItemData);
+
+                    //TODO: End loading indicator
+                }
+
+                @Override
+                public void onLoaderReset(Loader<Cursor> loader) {
+
+                }
+            };
+
+    /****** End loader methods for retrieving movie lists from SQLite ******/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,87 +108,26 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
         // Create a grid layout manager for use in the display of the recycler
         // and set display properties for the recycler
         GridLayoutManager gridManager = new GridLayoutManager(this, 2,
-                GridLayoutManager.VERTICAL, false);
+                                                              GridLayoutManager.VERTICAL, false
+        );
         mMoviesRecycler.setLayoutManager(gridManager);
         mMoviesRecycler.setHasFixedSize(true);
         mMoviesRecycler.addItemDecoration(new RecyclerViewItemDecorator(0));
 
+
+        // Check if there's already an existing movies list loader
+        if (getSupportLoaderManager().getLoader(mMovieListLoaderId) != null) {
+            getSupportLoaderManager().initLoader(
+                    mMovieListLoaderId, null, mMovieItemLoaderCallback);
+        }
         loadMovieData();
     }
 
-    private void loadMovieData() {
-        new FetchMoviesTask().execute(mSelectedSort);
-    }
-
-    public class RecyclerViewItemDecorator extends RecyclerView.ItemDecoration {
-        private int spaceInPixels;
-
-        public RecyclerViewItemDecorator(int spaceInPixels) {
-            this.spaceInPixels = spaceInPixels;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-            outRect.left = spaceInPixels;
-            outRect.right = spaceInPixels;
-            outRect.bottom = spaceInPixels;
-
-            if (parent.getChildLayoutPosition(view) == 0) {
-                outRect.top = spaceInPixels;
-            } else {
-                outRect.top = 0;
-            }
-        }
-    }
-
-    public class FetchMoviesTask extends AsyncTask<String, Void, MovieItemData[]> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //TODO: Set up a loading indicator
-        }
-
-        @Override
-        protected MovieItemData[] doInBackground(String... params) {
-            // Check that there is a parameter work with
-            if (params.length == 0) return null;
-
-            // Get the URI to use for the selected sort
-            Uri sortUri;
-            String sort = params[0];
-            if (sort.equals(POPULAR)) {
-                sortUri = mPopularUri;
-            } else if (sort.equals(RATED)) {
-                sortUri = mTopRatedUri;
-            } else {
-                return null;
-            }
-
-            try {
-                // Get the JSON data
-                String jsonMoviesResponse = NetworkUtility.getResponseFromHTTPUrl(sortUri);
-
-                return TMDBDataTransform.getMoviesFromJSON(
-                        MoviesList.this, jsonMoviesResponse);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(MovieItemData[] movies) {
-            //TODO: Hide loading indicator
-
-            // Check that we have movies to display
-            if (movies == null) return;
-
-            mMoviesAdapter.setMovieData(movies);
-        }
-    }
-
+    /****** Begin interaction handling
+     // Set up all the click interactions for the activity. This includes
+     // the click listener for the grid view as well as the menu
+     // creation and click handling.
+     ******/
     @Override
     public void onListItemClick(int itemIndex) {
         Context context = this;
@@ -183,4 +174,52 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
 
         return super.onOptionsItemSelected(item);
     }
+    /****** End interaction handling ******/
+
+
+    /****** Begin method for restarting loaders based on menu selection ******/
+    private void loadMovieData() {
+        // TODO: Set up a loading indicator
+
+        Bundle sortBundle = new Bundle();
+        if (mSelectedSort == POPULAR) {
+            sortBundle.putString("queryUrl", mPopularUri.toString());
+            getSupportLoaderManager().restartLoader(
+                    mMovieListLoaderId, sortBundle, mMovieItemLoaderCallback);
+        } else if (mSelectedSort == RATED) {
+            sortBundle.putString("queryUrl", mTopRatedUri.toString());
+            getSupportLoaderManager().restartLoader(
+                    mMovieListLoaderId, sortBundle, mMovieItemLoaderCallback);
+        } else {
+            return;
+        }
+    }
+
+    /****** End method for restarting loaders based on menu selection ******/
+
+    public class RecyclerViewItemDecorator extends RecyclerView.ItemDecoration {
+        private int spaceInPixels;
+
+        public RecyclerViewItemDecorator(int spaceInPixels) {
+            this.spaceInPixels = spaceInPixels;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view,
+                                   RecyclerView parent, RecyclerView.State state) {
+            outRect.left = spaceInPixels;
+            outRect.right = spaceInPixels;
+            outRect.bottom = spaceInPixels;
+
+            if (parent.getChildLayoutPosition(view) == 0) {
+                outRect.top = spaceInPixels;
+            } else {
+                outRect.top = 0;
+            }
+        }
+    }
+
+
+    //TODO: Loader methods for SQLite Cursor holding favorite movies
+
 }

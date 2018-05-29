@@ -1,10 +1,11 @@
 package com.example.a0603614.popularmovies.utilities;
 
 import android.content.Context;
-import android.graphics.Movie;
 import android.util.Log;
 
-import com.example.a0603614.popularmovies.MovieItemData;
+import com.example.a0603614.popularmovies.movieobjects.MovieItemData;
+import com.example.a0603614.popularmovies.movieobjects.ReviewItemData;
+import com.example.a0603614.popularmovies.movieobjects.VideoItemData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -128,4 +129,17 @@ public final class TMDBDataTransform {
         return movies;
 
     }
+
+    public static VideoItemData[] getVideosFromJson(Context context, String jsonData) {
+        VideoItemData[] videos = new VideoItemData[]{};
+        // TODO: Parse JSON data for videos
+        return videos;
+    }
+
+    public static ReviewItemData[] getReviewsFromJson(Context context, String jsonData) {
+        ReviewItemData[] reviews = new ReviewItemData[]{};
+        // TODO: Parse JSON data for reviews
+        return reviews;
+    }
+
 }
