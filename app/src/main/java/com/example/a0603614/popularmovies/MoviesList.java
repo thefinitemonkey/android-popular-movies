@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 
+import com.example.a0603614.popularmovies.utilities.Api;
 import com.example.a0603614.popularmovies.utilities.NetworkUtility;
 import com.example.a0603614.popularmovies.utilities.TMDBDataTransform;
 
@@ -42,22 +43,9 @@ public class MoviesList extends AppCompatActivity implements MovieListAdapter.Li
 
         // Create and hold the URIs for popular and top rated requests
         // Popularity URI
-        Uri.Builder uriBuilder = new Uri.Builder();
-        uriBuilder.scheme(getResources().getString(R.string.tmdb_popularity_sort_scheme));
-        uriBuilder.authority(getResources().getString(R.string.tmdb_popularity_sort_host));
-        uriBuilder.encodedPath(getResources().getString(R.string.tmdb_popularity_sort_path));
-        uriBuilder.appendQueryParameter(getResources().getString(R.string.tmdb_key_name),
-                getResources().getString(R.string.tmdb_key_value));
-        mPopularUri = uriBuilder.build();
-
+        mPopularUri = Api.getPopularMoviesUri(this);
         // Top-rated URI
-        uriBuilder = new Uri.Builder();
-        uriBuilder.scheme(getResources().getString(R.string.tmdb_top_rated_sort_scheme));
-        uriBuilder.authority(getResources().getString(R.string.tmdb_top_rated_sort_host));
-        uriBuilder.encodedPath(getResources().getString(R.string.tmdb_top_rated_sort_path));
-        uriBuilder.appendQueryParameter(getResources().getString(R.string.tmdb_key_name),
-                getResources().getString(R.string.tmdb_key_value));
-        mTopRatedUri = uriBuilder.build();
+        mTopRatedUri = Api.getTopRatedMoviesUri(this);
 
         // Create the adapter instance
         mMoviesAdapter = new MovieListAdapter(this, this);
