@@ -5,17 +5,19 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".VideosListFragment">
 
         <ImageView
             android:id="@+id/iv_video_thumbnail"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/video_thumb_height"
-            android:layout_marginStart="8dp"
+            android:layout_width="96dp"
+            android:layout_height="0dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:adjustViewBounds="true"
+            android:background="@android:color/background_dark"
+            android:cropToPadding="true"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
 
         <TextView
             android:id="@+id/tv_thumb_name"
@@ -26,7 +28,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="Some sample text"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/iv_video_thumbnail"
             app:layout_constraintTop_toTopOf="parent" />

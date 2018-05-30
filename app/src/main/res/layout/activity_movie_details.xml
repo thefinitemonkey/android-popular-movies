@@ -124,20 +124,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/tv_video_list_label"
+                    <LinearLayout
+                        android:id="@+id/ll_video_list"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tmdb_youtube_list_label"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
 
-                    <fragment android:id="@+id/video_list"
-                        android:name="com.example.a0603614.popularmovies.VideosListFragment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/tv_video_list_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tmdb_youtube_list_label"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
+                        <fragment
+                            android:id="@+id/video_list"
+                            android:name="com.example.a0603614.popularmovies.VideosListFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp" />
+                    </LinearLayout>
                 </FrameLayout>
             </LinearLayout>
         </FrameLayout>

@@ -1,5 +1,7 @@
 package com.example.a0603614.popularmovies;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +24,7 @@ public class VideosListFragment extends Fragment implements VideoListAdapter.Lis
     private RecyclerView mVideosRecycler;
     private VideoListAdapter mVideosAdapter;
     private LoaderManager.LoaderCallbacks<VideoItemData[]> mVideoLoaderCallback;
+    private VideoItemData[] mVideosData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class VideosListFragment extends Fragment implements VideoListAdapter.Lis
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManager.setReverseLayout(false);
+
         mVideosRecycler.setLayoutManager(linearLayoutManager);
         mVideosRecycler.setHasFixedSize(true);
 
@@ -57,6 +61,7 @@ public class VideosListFragment extends Fragment implements VideoListAdapter.Lis
                         // Check that there are videos
                         if (videoItemData == null) return;
 
+                        mVideosData = videoItemData;
                         mVideosAdapter.setVideoData(videoItemData);
                     }
 
@@ -84,7 +89,20 @@ public class VideosListFragment extends Fragment implements VideoListAdapter.Lis
 
     @Override
     public void onListItemClick(int id) {
-        //TODO: Create intent for opening YouTube video
+        // Create URI for YouTube video
+        Resources resources = getResources();
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(resources.getString(R.string.tmdb_youtube_scheme));
+        builder.authority(resources.getString(R.string.tmdb_youtube_host));
+        builder.appendEncodedPath(resources.getString(R.string.tmdb_youtube_path));
+        builder.appendQueryParameter(
+                resources.getString(R.string.tmdb_youtube_view_param), mVideosData[id].key);
+        Uri youTubeUri = builder.build();
+
+        // Create an intent to launch the player
+        Intent intent = new Intent();
+        intent.setData(youTubeUri);
+        startActivity(intent);
     }
 
     public void loadVideoListData() {
