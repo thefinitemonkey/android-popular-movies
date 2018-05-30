@@ -1,8 +1,10 @@
 package com.example.a0603614.popularmovies.utilities;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
+import com.example.a0603614.popularmovies.R;
 import com.example.a0603614.popularmovies.movieobjects.MovieItemData;
 import com.example.a0603614.popularmovies.movieobjects.ReviewItemData;
 import com.example.a0603614.popularmovies.movieobjects.VideoItemData;
@@ -40,6 +42,7 @@ public final class TMDBDataTransform {
     private static final String JSON_RELEASE_DATE = "release_date";
 
     private static final MovieItemData[] EMPTY_MOVIE_LIST = new MovieItemData[0];
+    private static final VideoItemData[] EMPTY_VIDEO_LIST = new VideoItemData[0];
 
 
     public static MovieItemData[] getMoviesFromJSON(Context context, String jsonData) {
@@ -136,9 +139,65 @@ public final class TMDBDataTransform {
     }
 
     public static VideoItemData[] getVideosFromJson(Context context, String jsonData) {
-        VideoItemData[] videos = new VideoItemData[]{};
-        // TODO: Parse JSON data for videos
-        return videos;
+        JSONObject videosJson;
+        try {
+           videosJson = new JSONObject(jsonData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return EMPTY_VIDEO_LIST;
+        }
+
+        // Check for unexpected return code
+        if (videosJson.has(JSON_MESSAGE_CODE)) {
+            try {
+                int messageCode = videosJson.getInt(JSON_MESSAGE_CODE);
+                if (messageCode != HttpURLConnection.HTTP_OK) return EMPTY_VIDEO_LIST;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return EMPTY_VIDEO_LIST;
+            }
+        }
+
+        // Get the JSON array of videos
+        JSONArray videosJsonArray;
+        try {
+            videosJsonArray = videosJson.getJSONArray(JSON_RESULTS_ARRAY);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return EMPTY_VIDEO_LIST;
+        }
+
+        // Create a new VideoItemData array the size of the JSON array
+        VideoItemData[] videosArray = new VideoItemData[videosJsonArray.length()];
+        // Iterate over the JSON array to make VideoItemData objects
+        for (int i = 0; i < videosArray.length; i++) {
+            JSONObject videoJsonObj = null;
+            try {
+                videoJsonObj = videosJsonArray.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // Create a VideoItemData object and set its info from the JSON
+            try {
+                int id = videoJsonObj.getInt("id");
+                String key = videoJsonObj.getString("key");
+                String name = videoJsonObj.getString("name");
+                String site = videoJsonObj.getString("site");
+                String type = videoJsonObj.getString("type");
+                String thumb = context.getResources().getString(R.string.tmdb_youtube_thumb_url);
+                String placeholder = context.getResources().getString(R.string.tmdb_youtube_thumb_key_replacement);
+                thumb = thumb.replace(placeholder, key);
+
+                VideoItemData video = new VideoItemData(id, key, name, site, type, thumb);
+                videosArray[i] = video;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return videosArray;
     }
 
     public static ReviewItemData[] getReviewsFromJson(Context context, String jsonData) {

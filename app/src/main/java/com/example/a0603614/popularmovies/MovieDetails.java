@@ -17,6 +17,7 @@ public class MovieDetails extends AppCompatActivity {
 
     private MovieItemData movieData;
     private String mImageSize;
+    private static int mMovieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,9 @@ public class MovieDetails extends AppCompatActivity {
 
         // Get the movie object from the intent
         movieData = getIntent().getParcelableExtra("movieData");
+
+        // Get the movieID
+        mMovieId = movieData.id;
 
         // Get screen pixels
         int screenPixels = getResources().getDisplayMetrics().widthPixels;
@@ -90,5 +94,9 @@ public class MovieDetails extends AppCompatActivity {
         // Synopsis
         TextView tvSynopsis = findViewById(R.id.tv_synopsis);
         tvSynopsis.setText(movieData.overview);
+    }
+
+    public static int getMovieId() {
+        return mMovieId;
     }
 }

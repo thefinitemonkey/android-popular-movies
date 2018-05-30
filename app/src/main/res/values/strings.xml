@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="tmdb_key_name">api_key</string>
-    <string name="tmdb_key_value"></string>
+    <string name="tmdb_key_value">fcd3b8e485dffcd2bde075bf1121b3b9</string>
     <string name="tmdb_poster_base_url">http://image.tmdb.org/t/p/</string>
     <string name="tmdb_popularity_sort_scheme">https</string>
     <string name="tmdb_popularity_sort_host">api.themoviedb.org</string>
     <string name="tmdb_extras_scheme">https</string>
     <string name="tmdb_extras_host">api.themoviedb.org</string>
-    <string name="tmdb_extras_path">/3/movie</string>
-    <string name="tmdb_extras_videos_path">videos</string>
-    <string name="tmdb_extras_reviews_path">reviews</string>
+    <string name="tmdb_extras_path">3/movie</string>
+    <string name="tmdb_extras_videos_path">/videos</string>
+    <string name="tmdb_extras_reviews_path">/reviews</string>
     <string name="tmdb_popularity_sort_path">/3/movie/popular</string>
     <string name="tmdb_top_rated_sort_scheme">https</string>
     <string name="tmdb_top_rated_sort_host">api.themoviedb.org</string>
@@ -19,6 +19,7 @@
     <string name="tmdb_youtube_path">/watch</string>
     <string name="tmdb_youtube_view_param">v</string>
     <string name="tmdb_youtube_thumb_url">https://img.youtube.com/vi/{video_id}/hqdefault.jpg</string>
+    <string name="tmdb_youtube_thumb_key_replacement">{video_id}</string>
     <string name="tmdb_youtube_list_label">Videos</string>
     <string name="DENSITY_120">w92</string>
     <string name="DENSITY_160">w154</string>

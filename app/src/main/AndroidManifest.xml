@@ -25,7 +25,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MoviesList" />
         </activity>
-        <activity android:name=".VideoList"></activity>
+        <activity android:name=".VideosListFragment"></activity>
     </application>
 
 </manifest>

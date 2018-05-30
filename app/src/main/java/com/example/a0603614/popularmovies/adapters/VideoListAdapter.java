@@ -19,22 +19,26 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Vide
     private ListItemClickListener mOnClickListener;
     private VideoItemData[] mVideoList;
 
-    public interface ListItemClickListener {
-        void onListItemClick(int id);
+    public VideoListAdapter(@NonNull Context current, ListItemClickListener listener) {
+        mContext = current;
+        mOnClickListener = listener;
+    }
+
+    public VideoItemData getVideoData(int index) {
+        if (index > 0 && mVideoList.length >= 0) {
+            return mVideoList[index];
+        }
+        return null;
     }
 
     public void swapVideoList(VideoItemData[] videos) {
         mVideoList = videos;
     }
 
-    public VideoListAdapter (@NonNull Context current, ListItemClickListener listener) {
-        mContext = current;
-        mOnClickListener = listener;
-    }
-
     @Override
     public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.activity_video_list, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(
+                R.layout.activity_video_item, parent, false);
         view.setFocusable(true);
 
         return new VideoViewHolder(view);
@@ -50,7 +54,18 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Vide
         return mListItemCount;
     }
 
-    public class VideoViewHolder extends RecyclerView.ViewHolder implements RecyclerView.OnClickListener {
+    public void setVideoData(VideoItemData[] videos) {
+        mVideoList = videos;
+        mListItemCount = videos.length;
+        notifyDataSetChanged();
+    }
+
+    public interface ListItemClickListener {
+        void onListItemClick(int id);
+    }
+
+    public class VideoViewHolder extends RecyclerView.ViewHolder
+            implements RecyclerView.OnClickListener {
         final ImageView mVideoThumb;
         final TextView mVideoTitle;
         final TextView mVideoType;
@@ -84,11 +99,5 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Vide
             //VideoItemData videoItem = mVideoList[adapterPosition];
             mOnClickListener.onListItemClick(adapterPosition);
         }
-    }
-
-    public void setVideoData(VideoItemData[] videos) {
-        mVideoList = videos;
-        mListItemCount = videos.length;
-        notifyDataSetChanged();
     }
 }

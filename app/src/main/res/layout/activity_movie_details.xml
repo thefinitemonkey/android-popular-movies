@@ -73,8 +73,8 @@
                                 android:id="@+id/tv_vote_average"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="14sp"
-                                android:textColor="@android:color/black"/>
+                                android:textColor="@android:color/black"
+                                android:textSize="14sp" />
 
                         </LinearLayout>
                     </FrameLayout>
@@ -94,9 +94,9 @@
                             android:id="@+id/tv_movie_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
                             android:textSize="24sp"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -112,24 +112,33 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:lineSpacingExtra="4sp"
-                            android:textSize="14sp"
-                            android:textColor="@android:color/black"/>
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
                 </FrameLayout>
 
-                <TextView
-                    android:id="@+id/tv_video_list_label"
+                <FrameLayout
+                    style="@style/movie_details_landscape_linearh"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tmdb_youtube_list_label"
-                    tools:text="@string/tmdb_youtube_list_label" />
+                    android:layout_height="wrap_content">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_videos_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/tv_video_list_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tmdb_youtube_list_label"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <fragment android:id="@+id/video_list"
+                        android:name="com.example.a0603614.popularmovies.VideosListFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </FrameLayout>
             </LinearLayout>
         </FrameLayout>
     </ScrollView>
