@@ -19,6 +19,7 @@
     <string name="tmdb_youtube_path">/watch</string>
     <string name="tmdb_youtube_view_param">v</string>
     <string name="tmdb_youtube_thumb_url">https://img.youtube.com/vi/{video_id}/hqdefault.jpg</string>
+    <string name="tmdb_youtube_list_label">Videos</string>
     <string name="DENSITY_120">w92</string>
     <string name="DENSITY_160">w154</string>
     <string name="DENSITY_213">w185</string>
@@ -31,4 +32,5 @@
     <string name="details_release_label">Release Date</string>
     <string name="details_vote_label">Average Vote</string>
     <string name="details_synopsis_label">Synopsis</string>
+
 </resources>

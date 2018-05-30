@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.a0603614.popularmovies.adapters.MovieListAdapter;
 import com.example.a0603614.popularmovies.loaders.MovieListLoader;
 import com.example.a0603614.popularmovies.movieobjects.MovieItemData;
 import com.example.a0603614.popularmovies.utilities.Api;

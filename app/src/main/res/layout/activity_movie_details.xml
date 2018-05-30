@@ -114,9 +114,24 @@
                             android:lineSpacingExtra="4sp"
                             android:textSize="14sp"
                             android:textColor="@android:color/black"/>
+
                     </LinearLayout>
+
                 </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tv_video_list_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tmdb_youtube_list_label"
+                    tools:text="@string/tmdb_youtube_list_label" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_videos_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </FrameLayout>
     </ScrollView>
+
 </FrameLayout>

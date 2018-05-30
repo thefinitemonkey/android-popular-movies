@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="portrait_backdrop_max_height" type="dimen">25%</item>
+    <item name="video_thumb_height" type="dimen">48dp</item>
 </resources>
