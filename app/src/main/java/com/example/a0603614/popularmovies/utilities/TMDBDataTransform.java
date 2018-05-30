@@ -180,7 +180,7 @@ public final class TMDBDataTransform {
 
             // Create a VideoItemData object and set its info from the JSON
             try {
-                int id = videoJsonObj.getInt("id");
+                String id = videoJsonObj.getString("id");
                 String key = videoJsonObj.getString("key");
                 String name = videoJsonObj.getString("name");
                 String site = videoJsonObj.getString("site");

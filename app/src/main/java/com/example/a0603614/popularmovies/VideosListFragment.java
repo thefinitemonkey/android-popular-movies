@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -72,11 +71,15 @@ public class VideosListFragment extends Fragment implements VideoListAdapter.Lis
             getLoaderManager().initLoader(VIDEO_LOADER_ID, null, mVideoLoaderCallback);
         }
 
-        // Start the data load
-        loadVideoListData();
-
         // Return the view now that everything is stood up
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Start the data load
+        loadVideoListData();
     }
 
     @Override
