@@ -1,5 +1,6 @@
 package com.example.a0603614.popularmovies;
 
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -106,15 +107,19 @@ public class MoviesList extends AppCompatActivity implements
         mMoviesRecycler = findViewById(R.id.rv_movie_list);
         mMoviesRecycler.setAdapter(mMoviesAdapter);
 
+        // Determine whether we're portrait or landscape and set the number of spans accordingly
+        int spanCount = 2;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            spanCount = 3;
+
         // Create a grid layout manager for use in the display of the recycler
         // and set display properties for the recycler
-        GridLayoutManager gridManager = new GridLayoutManager(this, 2,
+        GridLayoutManager gridManager = new GridLayoutManager(this, spanCount,
                                                               GridLayoutManager.VERTICAL, false
         );
         mMoviesRecycler.setLayoutManager(gridManager);
         mMoviesRecycler.setHasFixedSize(true);
         mMoviesRecycler.addItemDecoration(new RecyclerViewItemDecorator(0));
-
 
         // Check if there's already an existing movies list loader
         if (getSupportLoaderManager().getLoader(mMovieListLoaderId) != null) {
@@ -123,6 +128,7 @@ public class MoviesList extends AppCompatActivity implements
         }
         loadMovieData();
     }
+
 
     /****** Begin interaction handling
      // Set up all the click interactions for the activity. This includes

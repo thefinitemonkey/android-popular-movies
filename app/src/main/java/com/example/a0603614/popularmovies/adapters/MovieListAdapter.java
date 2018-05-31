@@ -119,9 +119,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
             // Use Picasso to set the image into the image view on this MovieViewHolder
             Picasso.with(mHolderContext).load(posterUrl).into(mImagePoster);
-            // Get screen pixels
-            int screenPixels = mHolderContext.getResources().getDisplayMetrics().widthPixels;
-            mImagePoster.setMinimumWidth(screenPixels / 2);
         }
     }
 
