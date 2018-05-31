@@ -35,7 +35,7 @@ public class VideosListFragment extends Fragment implements VideoListAdapter.Lis
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Initialize the view
-        final View view = inflater.inflate(R.layout.activity_videos_list, container, false);
+        final View view = inflater.inflate(R.layout.fragment_videos_list, container, false);
 
         // Create the adapter and bind it to the recycler view for the video list
         mVideosAdapter = new VideoListAdapter(view.getContext(), this);

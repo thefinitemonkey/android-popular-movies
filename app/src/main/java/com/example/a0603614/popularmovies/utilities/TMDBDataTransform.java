@@ -43,6 +43,7 @@ public final class TMDBDataTransform {
 
     private static final MovieItemData[] EMPTY_MOVIE_LIST = new MovieItemData[0];
     private static final VideoItemData[] EMPTY_VIDEO_LIST = new VideoItemData[0];
+    private static final ReviewItemData[] EMPTY_REVIEW_LIST = new ReviewItemData[0];
 
 
     public static MovieItemData[] getMoviesFromJSON(Context context, String jsonData) {
@@ -201,9 +202,53 @@ public final class TMDBDataTransform {
     }
 
     public static ReviewItemData[] getReviewsFromJson(Context context, String jsonData) {
-        ReviewItemData[] reviews = new ReviewItemData[]{};
-        // TODO: Parse JSON data for reviews
-        return reviews;
+        JSONObject reviewJson;
+        try {
+            reviewJson = new JSONObject(jsonData);
+        } catch(JSONException e) {
+            e.printStackTrace();
+            return EMPTY_REVIEW_LIST;
+        }
+
+        // Check for unexpected return message
+        if (reviewJson.has(JSON_MESSAGE_CODE)) {
+            try {
+                int code = reviewJson.getInt(JSON_MESSAGE_CODE);
+                if (code != HttpURLConnection.HTTP_OK) return EMPTY_REVIEW_LIST;
+            } catch(JSONException e) {
+                e.printStackTrace();
+                return EMPTY_REVIEW_LIST;
+            }
+        }
+
+        // Get the JSON array of reviews
+        JSONArray reviewsJsonArray;
+        try {
+            reviewsJsonArray = reviewJson.getJSONArray(JSON_RESULTS_ARRAY);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return EMPTY_REVIEW_LIST;
+        }
+
+        // Create a new reviewsItemData array the size of the JSON array
+        ReviewItemData[] reviewsArray = new ReviewItemData[reviewsJsonArray.length()];
+        // Iterate over the array to make the review item data objects
+        for (int i = 0; i < reviewsArray.length; i++) {
+            try {
+                JSONObject reviewJsonObj = reviewsJsonArray.getJSONObject(i);
+                String id = reviewJsonObj.getString("id");
+                String author = reviewJsonObj.getString("author");
+                String content = reviewJsonObj.getString("content");
+                String url = reviewJsonObj.getString("url");
+
+                ReviewItemData review = new ReviewItemData(id, author, content, url);
+                reviewsArray[i] = review;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return reviewsArray;
     }
 
 }

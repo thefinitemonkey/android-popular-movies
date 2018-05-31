@@ -137,7 +137,8 @@
                             android:text="@string/tmdb_youtube_list_label"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
 
                         <fragment
                             android:id="@+id/video_list"
@@ -147,7 +148,36 @@
                             android:layout_margin="0dp" />
                     </LinearLayout>
                 </FrameLayout>
-            </LinearLayout>
+
+                <FrameLayout
+                    style="@style/movie_details_landscape_linearh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/ll_review_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_review_list_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tmdb_review_list_label"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <fragment
+                            android:id="@+id/review_list"
+                            android:name="com.example.a0603614.popularmovies.ReviewsListFragment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="0dp" />
+                    </LinearLayout>
+                </FrameLayout>            </LinearLayout>
         </FrameLayout>
     </ScrollView>
 

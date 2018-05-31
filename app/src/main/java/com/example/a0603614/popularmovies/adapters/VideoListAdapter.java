@@ -24,17 +24,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Vide
         mOnClickListener = listener;
     }
 
-    public VideoItemData getVideoData(int index) {
-        if (index > 0 && mVideoList.length >= 0) {
-            return mVideoList[index];
-        }
-        return null;
-    }
-
-    public void swapVideoList(VideoItemData[] videos) {
-        mVideoList = videos;
-    }
-
     @Override
     public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(
