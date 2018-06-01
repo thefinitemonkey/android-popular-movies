@@ -2,6 +2,7 @@ package com.example.a0603614.popularmovies.movieobjects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

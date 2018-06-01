@@ -64,16 +64,16 @@ public class MoviesList extends AppCompatActivity implements
 
 
     /****** Begin loader methods for retrieving movie lists from SQLite ******/
-    private LoaderManager.LoaderCallbacks<Cursor> mMovieCursorLoaderCallback =
-            new LoaderManager.LoaderCallbacks<Cursor>() {
+    private LoaderManager.LoaderCallbacks<MovieItemData[]> mMovieCursorLoaderCallback =
+            new LoaderManager.LoaderCallbacks<MovieItemData[]>() {
                 @Override
-                public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+                public Loader<MovieItemData[]> onCreateLoader(int i, Bundle bundle) {
                     mMovieListLoaderId = i;
                     return null;
                 }
 
                 @Override
-                public void onLoadFinished(Loader<Cursor> loader, Cursor movieItemData) {
+                public void onLoadFinished(Loader<MovieItemData[]> loader, MovieItemData[] movieItemData) {
                     // Check that we have movies to display
                     if (movieItemData == null) return;
 
@@ -83,7 +83,7 @@ public class MoviesList extends AppCompatActivity implements
                 }
 
                 @Override
-                public void onLoaderReset(Loader<Cursor> loader) {
+                public void onLoaderReset(Loader<MovieItemData[]> loader) {
 
                 }
             };
