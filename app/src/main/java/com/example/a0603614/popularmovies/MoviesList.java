@@ -36,7 +36,6 @@ public class MoviesList extends AppCompatActivity implements
     private Uri mPopularUri;
     private String mSelectedSort = POPULAR;
     private int mMovieListLoaderId = 1993;
-    private int mMovieListCursorLoaderId = 2002;
 
 
     /****** Begin loader methods for retrieving movie lists from TMDB API ******/
@@ -124,6 +123,12 @@ public class MoviesList extends AppCompatActivity implements
         mMoviesRecycler.setHasFixedSize(true);
         mMoviesRecycler.addItemDecoration(new RecyclerViewItemDecorator(0));
 
+        // Check if there are already existing movies list loaders
+        if (getSupportLoaderManager().getLoader(mMovieListLoaderId) != null) {
+            getSupportLoaderManager().initLoader(
+                    mMovieListLoaderId, null, mMovieItemLoaderCallback);
+        }
+
         loadMovieData();
     }
 
@@ -190,30 +195,20 @@ public class MoviesList extends AppCompatActivity implements
     private void loadMovieData() {
         // TODO: Set up a loading indicator
 
-        // Check if there are already existing movies list loaders
-        if (getSupportLoaderManager().getLoader(mMovieListLoaderId) != null) {
-            getSupportLoaderManager().initLoader(
-                    mMovieListLoaderId, null, mMovieItemLoaderCallback);
-        }
-        if (getSupportLoaderManager().getLoader(mMovieListCursorLoaderId) != null) {
-            getSupportLoaderManager().initLoader(
-                    mMovieListCursorLoaderId, null, mMovieCursorLoaderCallback);
-        }
-
+        // Start up the loader with the appropriate bundle and callback, depending
+        // on which menu item was selected
         Bundle sortBundle = new Bundle();
         if (mSelectedSort == POPULAR) {
             sortBundle.putString("queryUrl", mPopularUri.toString());
             getSupportLoaderManager().restartLoader(
                     mMovieListLoaderId, sortBundle, mMovieItemLoaderCallback);
-            getSupportLoaderManager().destroyLoader(mMovieListCursorLoaderId);
         } else if (mSelectedSort == RATED) {
             sortBundle.putString("queryUrl", mTopRatedUri.toString());
             getSupportLoaderManager().restartLoader(
                     mMovieListLoaderId, sortBundle, mMovieItemLoaderCallback);
-            getSupportLoaderManager().destroyLoader(mMovieListCursorLoaderId);
         } else if (mSelectedSort == FAVORITE) {
-            getSupportLoaderManager().restartLoader(mMovieListCursorLoaderId, null, mMovieCursorLoaderCallback);
-            getSupportLoaderManager().destroyLoader(mMovieListLoaderId);
+            getSupportLoaderManager().restartLoader(
+                    mMovieListLoaderId, null, mMovieCursorLoaderCallback);
         } else {
             return;
         }
