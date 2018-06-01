@@ -7,4 +7,7 @@
     <item
         android:id="@+id/menu_highest_rated"
         android:title="@string/SORT_VOTES" />
+    <item
+        android:id="@+id/menu_favorite"
+        android:title="Favorite" />
 </menu>

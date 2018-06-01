@@ -23,7 +23,7 @@ public class TMDBMoviesDbHelper extends SQLiteOpenHelper{
                         TMDBMoviesContract.MoviesEntry.COLUMN_MOVIE_TITLE + " TEXT NOT NULL, " +
                         TMDBMoviesContract.MoviesEntry.COLUMN_ORIGINAL_LANGUAGE + " TEXT, " +
                         TMDBMoviesContract.MoviesEntry.COLUMN_ORIGINAL_TITLE + " TEXT, " +
-                        TMDBMoviesContract.MoviesEntry.COLUMN_RELEASE_DATE + " LONG NOT NULL, " +
+                        TMDBMoviesContract.MoviesEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +
                         TMDBMoviesContract.MoviesEntry.COLUMN_VOTE_COUNT + " INTEGER NOT NULL, " +
                         TMDBMoviesContract.MoviesEntry.COLUMN_VOTE_AVERAGE + " FLOAT NOT NULL, " +
                         TMDBMoviesContract.MoviesEntry.COLUMN_POPULARITY_SCORE + " FLOAT NOT NULL, " +

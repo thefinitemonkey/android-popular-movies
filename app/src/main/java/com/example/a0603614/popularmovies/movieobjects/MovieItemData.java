@@ -41,6 +41,7 @@ public class MovieItemData implements Parcelable {
     public final String overview;
     public Date releaseDate;
 
+
     public MovieItemData(int movieID, String movieTitle, int votes, float average,
                          float popularityScore, String poster, String origLanguage,
                          String origTitle, int[] genres, String backdrop,

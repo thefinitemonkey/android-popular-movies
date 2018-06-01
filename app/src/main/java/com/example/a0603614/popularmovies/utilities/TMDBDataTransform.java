@@ -46,6 +46,27 @@ public final class TMDBDataTransform {
     private static final ReviewItemData[] EMPTY_REVIEW_LIST = new ReviewItemData[0];
 
 
+    public static String strSeparator = "__,__";
+    public static String convertIntArrayToString(String[] array){
+        String str = "";
+        for (int i = 0;i<array.length; i++) {
+            str = str+array[i];
+            // Do not append comma at the end of last element
+            if(i<array.length-1){
+                str = str+strSeparator;
+            }
+        }
+        return str;
+    }
+    public static int[] convertStringToIntArray(String str){
+        String[] arr = str.split(strSeparator);
+        int[] intArr = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            intArr[i] = Integer.parseInt(arr[i]);
+        }
+        return intArr;
+    }
+
     public static MovieItemData[] getMoviesFromJSON(Context context, String jsonData) {
         // Initialize values for use in transforming the JSON data
         JSONObject movieJSON;

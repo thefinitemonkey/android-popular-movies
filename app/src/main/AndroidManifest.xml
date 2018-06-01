@@ -26,6 +26,11 @@
                 android:value=".MoviesList" />
         </activity>
         <activity android:name=".VideosListFragment"></activity>
+
+        <provider
+            android:authorities="com.example.a0603614.popularmovies"
+            android:name="com.example.a0603614.popularmovies.database.MoviesContentProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>

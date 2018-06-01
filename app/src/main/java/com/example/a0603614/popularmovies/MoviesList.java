@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.a0603614.popularmovies.adapters.MovieListAdapter;
+import com.example.a0603614.popularmovies.loaders.MovieListCursorLoader;
 import com.example.a0603614.popularmovies.loaders.MovieListLoader;
 import com.example.a0603614.popularmovies.movieobjects.MovieItemData;
 import com.example.a0603614.popularmovies.utilities.Api;
@@ -27,6 +28,7 @@ public class MoviesList extends AppCompatActivity implements
 
     private static final String POPULAR = "popular";
     private static final String RATED = "rated";
+    private static final String FAVORITE = "favorite";
     // Need to hold onto the adapter and recycler
     private MovieListAdapter mMoviesAdapter;
     private RecyclerView mMoviesRecycler;
@@ -34,6 +36,7 @@ public class MoviesList extends AppCompatActivity implements
     private Uri mPopularUri;
     private String mSelectedSort = POPULAR;
     private int mMovieListLoaderId = 1993;
+    private int mMovieListCursorLoaderId = 2002;
 
 
     /****** Begin loader methods for retrieving movie lists from TMDB API ******/
@@ -69,7 +72,7 @@ public class MoviesList extends AppCompatActivity implements
                 @Override
                 public Loader<MovieItemData[]> onCreateLoader(int i, Bundle bundle) {
                     mMovieListLoaderId = i;
-                    return null;
+                    return new MovieListCursorLoader(MoviesList.this);
                 }
 
                 @Override
@@ -77,7 +80,7 @@ public class MoviesList extends AppCompatActivity implements
                     // Check that we have movies to display
                     if (movieItemData == null) return;
 
-                    //mMoviesAdapter.setMovieData(movieItemData);
+                    mMoviesAdapter.setMovieData(movieItemData);
 
                     //TODO: End loading indicator
                 }
@@ -121,11 +124,6 @@ public class MoviesList extends AppCompatActivity implements
         mMoviesRecycler.setHasFixedSize(true);
         mMoviesRecycler.addItemDecoration(new RecyclerViewItemDecorator(0));
 
-        // Check if there's already an existing movies list loader
-        if (getSupportLoaderManager().getLoader(mMovieListLoaderId) != null) {
-            getSupportLoaderManager().initLoader(
-                    mMovieListLoaderId, null, mMovieItemLoaderCallback);
-        }
         loadMovieData();
     }
 
@@ -169,6 +167,10 @@ public class MoviesList extends AppCompatActivity implements
                 screenTitle = "Highest Rated Movies";
                 break;
             }
+            case R.id.menu_favorite: {
+                mSelectedSort = FAVORITE;
+                screenTitle = "Favorite Movies";
+            }
         }
 
         // Change the screen title to reflect the sort selection and load the data
@@ -188,15 +190,30 @@ public class MoviesList extends AppCompatActivity implements
     private void loadMovieData() {
         // TODO: Set up a loading indicator
 
+        // Check if there are already existing movies list loaders
+        if (getSupportLoaderManager().getLoader(mMovieListLoaderId) != null) {
+            getSupportLoaderManager().initLoader(
+                    mMovieListLoaderId, null, mMovieItemLoaderCallback);
+        }
+        if (getSupportLoaderManager().getLoader(mMovieListCursorLoaderId) != null) {
+            getSupportLoaderManager().initLoader(
+                    mMovieListCursorLoaderId, null, mMovieCursorLoaderCallback);
+        }
+
         Bundle sortBundle = new Bundle();
         if (mSelectedSort == POPULAR) {
             sortBundle.putString("queryUrl", mPopularUri.toString());
             getSupportLoaderManager().restartLoader(
                     mMovieListLoaderId, sortBundle, mMovieItemLoaderCallback);
+            getSupportLoaderManager().destroyLoader(mMovieListCursorLoaderId);
         } else if (mSelectedSort == RATED) {
             sortBundle.putString("queryUrl", mTopRatedUri.toString());
             getSupportLoaderManager().restartLoader(
                     mMovieListLoaderId, sortBundle, mMovieItemLoaderCallback);
+            getSupportLoaderManager().destroyLoader(mMovieListCursorLoaderId);
+        } else if (mSelectedSort == FAVORITE) {
+            getSupportLoaderManager().restartLoader(mMovieListCursorLoaderId, null, mMovieCursorLoaderCallback);
+            getSupportLoaderManager().destroyLoader(mMovieListLoaderId);
         } else {
             return;
         }
