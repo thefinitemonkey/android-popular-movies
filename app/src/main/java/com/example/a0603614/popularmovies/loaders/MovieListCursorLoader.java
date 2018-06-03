@@ -48,12 +48,10 @@ public class MovieListCursorLoader extends AsyncTaskLoader<MovieItemData[]> {
     private static final int COLUMN_VIDEO = 14;
     Cursor mMovieCursor = null;
     MovieItemData[] mMovieData = null;
-    private Context mContext;
 
 
     public MovieListCursorLoader(Context context) {
         super(context);
-        mContext = context;
     }
 
     @Override
@@ -73,7 +71,11 @@ public class MovieListCursorLoader extends AsyncTaskLoader<MovieItemData[]> {
                     TMDBMoviesContract.MoviesEntry.CONTENT_URI, mMoviesProjection, null, null,
                     null
             );
-            return moviesCursorToArray(cursor);
+            if (cursor != null) {
+                return moviesCursorToArray(cursor);
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             Log.e(TAG, "loadInBackground: Failed to load movies list -- " + e);
             e.printStackTrace();
@@ -141,7 +143,7 @@ public class MovieListCursorLoader extends AsyncTaskLoader<MovieItemData[]> {
             MovieItemData movie = new MovieItemData(movieID, movieTitle, votes, average,
                                                     popularityScore, poster, origLanguage,
                                                     origTitle, genres, backdrop, adultFilm,
-                                                    overviewText, release, hasVideo
+                                                    overviewText, release, hasVideo, true
             );
 
             // Add the movie to the list

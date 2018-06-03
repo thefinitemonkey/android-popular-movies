@@ -40,6 +40,7 @@ public class MovieItemData implements Parcelable {
     public final Boolean adult;
     public final String overview;
     public Date releaseDate;
+    public Boolean favorite;
 
 
     public MovieItemData(int movieID, String movieTitle, int votes, float average,
@@ -61,6 +62,29 @@ public class MovieItemData implements Parcelable {
         overview = overviewText;
         releaseDate = release;
         video = hasVideo;
+        favorite = false;
+    }
+
+    public MovieItemData(int movieID, String movieTitle, int votes, float average,
+                         float popularityScore, String poster, String origLanguage,
+                         String origTitle, int[] genres, String backdrop,
+                         Boolean adultFilm, String overviewText, Date release,
+                         Boolean hasVideo, Boolean isFavorite) {
+        id = movieID;
+        title = movieTitle;
+        voteCount = votes;
+        voteAverage = average;
+        popularity = popularityScore;
+        posterPath = poster;
+        originalLanguage = origLanguage;
+        originalTitle = origTitle;
+        genreIDs = genres;
+        backdropPath = backdrop;
+        adult = adultFilm;
+        overview = overviewText;
+        releaseDate = release;
+        video = hasVideo;
+        favorite = isFavorite;
     }
 
     public MovieItemData(Parcel in) {

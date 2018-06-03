@@ -20,12 +20,12 @@
         </activity>
         <activity
             android:name=".MovieDetails"
-            android:parentActivityName=".MoviesList">
+            android:parentActivityName=".MoviesList"
+            android:label="@string/movie_details_title">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MoviesList" />
         </activity>
-        <activity android:name=".VideosListFragment"></activity>
 
         <provider
             android:authorities="com.example.a0603614.popularmovies"

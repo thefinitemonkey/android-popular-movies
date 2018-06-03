@@ -46,8 +46,8 @@ public final class TMDBDataTransform {
     private static final ReviewItemData[] EMPTY_REVIEW_LIST = new ReviewItemData[0];
 
 
-    public static String strSeparator = "__,__";
-    public static String convertIntArrayToString(String[] array){
+    private static String strSeparator = "__,__";
+    public static String convertIntArrayToString(int[] array){
         String str = "";
         for (int i = 0;i<array.length; i++) {
             str = str+array[i];

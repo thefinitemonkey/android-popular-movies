@@ -1,191 +1,192 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/iv_details_backdrop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:alpha=".4"
+            android:scaleType="centerCrop" />
 
-            <ImageView
-                android:id="@+id/iv_details_backdrop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:alpha=".4"
-                android:scaleType="centerCrop" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                <FrameLayout style="@style/movie_details_landscape_linearh">
 
-                    <FrameLayout style="@style/movie_details_landscape_linearh">
+                    <ImageView
+                        android:id="@+id/iv_details_poster"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-                        <ImageView
-                            android:id="@+id/iv_details_poster"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    </FrameLayout>
-
-                    <FrameLayout style="@style/movie_details_landscape_linearh">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="100dp"
-                                android:text="@string/details_release_label"
-                                android:textColor="@android:color/black"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tv_release_date"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@android:color/black"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="20dp"
-                                android:text="@string/details_vote_label"
-                                android:textColor="@android:color/black"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tv_vote_average"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@android:color/black"
-                                android:textSize="14sp" />
-
-                            <ImageView
-                                android:id="@+id/imageView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/like_unselected" />
-
-                        </LinearLayout>
-                    </FrameLayout>
-                </LinearLayout>
+                </FrameLayout>
 
                 <FrameLayout
                     style="@style/movie_details_landscape_linearh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tv_movie_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@android:color/black"
-                            android:textSize="24sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/details_synopsis_label"
+                            android:layout_marginTop="100dp"
+                            android:text="@string/details_release_label"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tv_synopsis"
+                            android:id="@+id/tv_release_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:lineSpacingExtra="4sp"
                             android:textColor="@android:color/black"
                             android:textSize="14sp" />
 
-                    </LinearLayout>
-
-                </FrameLayout>
-
-                <FrameLayout
-                    style="@style/movie_details_landscape_linearh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:id="@+id/ll_video_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
                         <TextView
-                            android:id="@+id/tv_video_list_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tmdb_youtube_list_label"
+                            android:layout_marginTop="20dp"
+                            android:text="@string/details_vote_label"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:layout_marginBottom="8dp"/>
-
-                        <fragment
-                            android:id="@+id/video_list"
-                            android:name="com.example.a0603614.popularmovies.VideosListFragment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="0dp" />
-                    </LinearLayout>
-                </FrameLayout>
-
-                <FrameLayout
-                    style="@style/movie_details_landscape_linearh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:id="@+id/ll_review_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tv_review_list_label"
+                            android:id="@+id/tv_vote_average"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tmdb_review_list_label"
                             android:textColor="@android:color/black"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:layout_marginBottom="8dp"/>
+                            android:textSize="14sp" />
 
-                        <fragment
-                            android:id="@+id/review_list"
-                            android:name="com.example.a0603614.popularmovies.ReviewsListFragment"
+                        <ImageButton
+                            android:id="@+id/iv_favorite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="0dp" />
-                    </LinearLayout>
-                </FrameLayout>            </LinearLayout>
-        </FrameLayout>
-    </ScrollView>
+                            android:layout_gravity="end"
+                            android:background="@android:color/transparent"
+                            android:onClick="toggleFavorite"
+                            android:paddingEnd="8dp"
+                            android:paddingStart="8dp"
+                            app:srcCompat="@drawable/like_unselected" />
 
-</FrameLayout>
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+
+            <FrameLayout
+                style="@style/movie_details_landscape_linearh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_movie_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/details_synopsis_label"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_synopsis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="4sp"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                style="@style/movie_details_landscape_linearh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/ll_video_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_video_list_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/tmdb_youtube_list_label"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <fragment
+                        android:id="@+id/video_list"
+                        android:name="com.example.a0603614.popularmovies.VideosListFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                style="@style/movie_details_landscape_linearh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/ll_review_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_review_list_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/tmdb_review_list_label"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <fragment
+                        android:id="@+id/review_list"
+                        android:name="com.example.a0603614.popularmovies.ReviewsListFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+</ScrollView>

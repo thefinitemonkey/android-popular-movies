@@ -1,7 +1,6 @@
 package com.example.a0603614.popularmovies;
 
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.content.Context;
@@ -12,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +36,7 @@ public class MoviesList extends AppCompatActivity implements
     private Uri mPopularUri;
     private String mSelectedSort = POPULAR;
     private int mMovieListLoaderId = 1993;
+    private static final int REQUEST_CODE = 1970;
 
 
     /****** Begin loader methods for retrieving movie lists from TMDB API ******/
@@ -97,6 +98,10 @@ public class MoviesList extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies_list);
 
+        if (savedInstanceState != null) {
+            mSelectedSort = savedInstanceState.getString("selectedSort");
+        }
+
         // Create and hold the URIs for popular and top rated requests
         // Popularity URI
         mPopularUri = Api.getPopularMoviesUri(this);
@@ -133,6 +138,7 @@ public class MoviesList extends AppCompatActivity implements
     }
 
 
+
     /****** Begin interaction handling
      // Set up all the click interactions for the activity. This includes
      // the click listener for the grid view as well as the menu
@@ -144,8 +150,18 @@ public class MoviesList extends AppCompatActivity implements
         Class detinationClass = MovieDetails.class;
         Intent showMovieDetails = new Intent(context, detinationClass);
         showMovieDetails.putExtra("movieData", mMoviesAdapter.getMovieData(itemIndex));
-        startActivity(showMovieDetails);
+        showMovieDetails.putExtra("selectedSort", mSelectedSort);
+        startActivityForResult(showMovieDetails, REQUEST_CODE);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != REQUEST_CODE) return;
+
+        mSelectedSort = data.getStringExtra("selectedSort");
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -198,19 +214,17 @@ public class MoviesList extends AppCompatActivity implements
         // Start up the loader with the appropriate bundle and callback, depending
         // on which menu item was selected
         Bundle sortBundle = new Bundle();
-        if (mSelectedSort == POPULAR) {
+        if (mSelectedSort.equals(POPULAR)) {
             sortBundle.putString("queryUrl", mPopularUri.toString());
             getSupportLoaderManager().restartLoader(
                     mMovieListLoaderId, sortBundle, mMovieItemLoaderCallback);
-        } else if (mSelectedSort == RATED) {
+        } else if (mSelectedSort.equals(RATED)) {
             sortBundle.putString("queryUrl", mTopRatedUri.toString());
             getSupportLoaderManager().restartLoader(
                     mMovieListLoaderId, sortBundle, mMovieItemLoaderCallback);
-        } else if (mSelectedSort == FAVORITE) {
+        } else if (mSelectedSort.equals(FAVORITE)) {
             getSupportLoaderManager().restartLoader(
                     mMovieListLoaderId, null, mMovieCursorLoaderCallback);
-        } else {
-            return;
         }
     }
 
