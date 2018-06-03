@@ -7,7 +7,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -65,26 +64,16 @@ public class MovieDetails extends AppCompatActivity {
         setContentView(R.layout.activity_movie_details);
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        switch (metrics.densityDpi) {
-            case DisplayMetrics.DENSITY_LOW: {
-                mImageSize = "w92";
-                break;
-            }
-            case DisplayMetrics.DENSITY_MEDIUM:
-            case DisplayMetrics.DENSITY_TV: {
-                mImageSize = "w154";
-                break;
-            }
-            case DisplayMetrics.DENSITY_HIGH:
-            case DisplayMetrics.DENSITY_XHIGH: {
-                mImageSize = "w342";
-                break;
-            }
-            case DisplayMetrics.DENSITY_XXHIGH:
-            case DisplayMetrics.DENSITY_XXXHIGH: {
-                mImageSize = "w500";
-                break;
-            }
+        if (metrics.densityDpi <= DisplayMetrics.DENSITY_LOW) {
+            mImageSize = "w92";
+        } else if (metrics.densityDpi > DisplayMetrics.DENSITY_LOW &&
+                metrics.densityDpi < DisplayMetrics.DENSITY_TV) {
+            mImageSize = "w154";
+        } else if (metrics.densityDpi >= DisplayMetrics.DENSITY_TV &&
+                metrics.densityDpi < DisplayMetrics.DENSITY_XHIGH) {
+            mImageSize = "w342";
+        } else {
+            mImageSize = "w500";
         }
 
         // Hold on to the sort view setting we came from
@@ -142,7 +131,6 @@ public class MovieDetails extends AppCompatActivity {
         getSupportLoaderManager().restartLoader(
                 mFavoriteCheckLoaderId, null, mFavoriteCheckCallback);
         mivFavorite = findViewById(R.id.iv_favorite);
-
     }
 
     private void displayFavoriteIcon() {

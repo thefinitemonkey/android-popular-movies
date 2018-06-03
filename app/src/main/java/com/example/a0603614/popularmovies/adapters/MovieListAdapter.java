@@ -32,26 +32,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         // Determine the image size parameter to use
         mContext = current;
         DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
-        switch (metrics.densityDpi) {
-            case DisplayMetrics.DENSITY_LOW: {
-                mImageSize = "w92";
-                break;
-            }
-            case DisplayMetrics.DENSITY_MEDIUM:
-            case DisplayMetrics.DENSITY_TV: {
-                mImageSize = "w154";
-                break;
-            }
-            case DisplayMetrics.DENSITY_HIGH:
-            case DisplayMetrics.DENSITY_XHIGH: {
-                mImageSize = "w342";
-                break;
-            }
-            case DisplayMetrics.DENSITY_XXHIGH:
-            case DisplayMetrics.DENSITY_XXXHIGH: {
-                mImageSize = "w500";
-                break;
-            }
+        if (metrics.densityDpi <= DisplayMetrics.DENSITY_LOW) {
+            mImageSize = "w92";
+        } else if (metrics.densityDpi > DisplayMetrics.DENSITY_LOW &&
+                metrics.densityDpi < DisplayMetrics.DENSITY_TV) {
+            mImageSize = "w154";
+        } else if (metrics.densityDpi >= DisplayMetrics.DENSITY_TV &&
+                metrics.densityDpi < DisplayMetrics.DENSITY_XHIGH) {
+            mImageSize = "w342";
+        } else {
+            mImageSize = "w500";
         }
     }
 

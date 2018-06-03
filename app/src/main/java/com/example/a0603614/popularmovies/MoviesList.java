@@ -125,7 +125,7 @@ public class MoviesList extends AppCompatActivity implements
                                                               GridLayoutManager.VERTICAL, false
         );
         mMoviesRecycler.setLayoutManager(gridManager);
-        mMoviesRecycler.setHasFixedSize(true);
+        mMoviesRecycler.setHasFixedSize(false);
         mMoviesRecycler.addItemDecoration(new RecyclerViewItemDecorator(0));
 
         // Check if there are already existing movies list loaders
