@@ -56,11 +56,7 @@ public class MovieListCursorLoader extends AsyncTaskLoader<MovieItemData[]> {
 
     @Override
     protected void onStartLoading() {
-        if (mMovieData != null) {
-            deliverResult(mMovieData);
-        } else {
-            forceLoad();
-        }
+        forceLoad();
     }
 
     @Override
