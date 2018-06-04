@@ -213,6 +213,8 @@ public class MoviesList extends AppCompatActivity implements
 
         // Start up the loader with the appropriate bundle and callback, depending
         // on which menu item was selected
+        if (mSelectedSort == null) return;
+
         Bundle sortBundle = new Bundle();
         if (mSelectedSort.equals(POPULAR)) {
             sortBundle.putString("queryUrl", mPopularUri.toString());
